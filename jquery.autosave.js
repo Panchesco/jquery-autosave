@@ -12,9 +12,9 @@
 			cookieName: 'pnchc_tsv',
 			cookiePath: '/admin/',
 			interval: 5,
-			createUrl: '/admin/index.php/autosave/create_row/',
+			createUrl: '/admin/autosave/create_row/',
 			retrieveUrl: '',
-			listUrl: '/admin/index.php/autosave/list_rows/12',
+			listUrl: '/admin/ autosave/list_rows/12',
 			keyUpSelector: 'input',
 			
 			
@@ -196,4 +196,6 @@
 		
 	} // End $.fn.gdautosave
 	
+	
 })(jQuery);
+
