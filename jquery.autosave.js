@@ -6,9 +6,9 @@
 				selector: "form",
 				listingContainer: "#autosave-list",
 				listingsMax: 12,
-				pages: ['/edit/id/[0-9]+','/admin/autosave'],
+				pages: [],
 				cookieName: 'pnchc_tsv',
-				cookiePath: '/admin/',
+				cookiePath: '/',
 				interval: 5,
 				createUrl: '/admin/autosave/create/',
 				retrieveUrl: '',
@@ -30,14 +30,12 @@
 		$(settings.selector).append("\n"+'<input type="hidden" id="'+settings.autosaveUrlId+'" name="'+settings.autosaveUrlId+'" value="'+autosave_url+'" />'+"\n");
 		
 		
-		
-		
-		
 		// FUNCTIONS //////////////////////////////////////////////////////////////////
 		
 		
 		function setCookie(cname, cvalue, exminutes) {
 	    	var d = new Date();
+	    	
 	    	d.setTime(d.getTime() + (exminutes*60*1000));
 	    	var expires = "expires="+d.toGMTString();
 	    	document.cookie = cname + "=" + cvalue + "; " + expires +"; path="+settings.cookiePath;
@@ -165,8 +163,7 @@
 				$(this).keyup(function(){
 
 				current = getCookie(settings.cookieName);
-				
-				
+
 				// If the autosave cookie has expired, create a new autosave row.
 				
 				if( current == "")
@@ -189,9 +186,7 @@
 		
 	} // End $.fn.gdautosave
 	
-	
-	
-	
+
 	
 })(jQuery);
 
