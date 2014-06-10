@@ -3,36 +3,31 @@
 	$.fn['autosave'] = function(options)
 	{
 		var settings = $.extend({
-					 
-		// These are the defaults.
-			selector: "form",
-			listingContainer: "#autosave",
-			listingsMax: 12,
-			pages: ['/edit/id/[0-9]+'],
-			cookieName: 'pnchc_tsv',
-			cookiePath: '/admin/',
-			interval: 5,
-			createUrl: '/admin/autosave/create_row/',
-			retrieveUrl: '',
-			listUrl: '/admin/ autosave/list_rows/12',
-			keyUpSelector: 'input',
-			
-			
+				selector: "form",
+				listingContainer: "#autosave-list",
+				listingsMax: 12,
+				pages: ['/edit/id/[0-9]+','/admin/autosave'],
+				cookieName: 'pnchc_tsv',
+				cookiePath: '/admin/',
+				interval: 5,
+				createUrl: '/admin/autosave/create/',
+				retrieveUrl: '',
+				listUrl: '/admin/autosave/rows/12',
+				keyUpSelector: 'input',
+				autosaveUrlId: 'autosave_url'
 		}, options );
-		
 		
 		// Object to hold some properties.
 		var props	=	{
 							errors: false,
 							listingHtml: '<div class="clearfix"></div><p>Autosave listing here.</p>',
-						
 						};
 		
 		// Set current window location to string.
-		var autosave_uri = window.location.toString();
-		
-		// Append the autosave_uri to the settings.selector as a hidden form element.
-		$(settings.selector).append("\n"+'<input type="hidden" id="autosave_uri" name="autosave_uri" value="'+autosave_uri+'" />'+"\n");
+		var autosave_url = window.location.toString();
+
+		// Append the autosave_url to the settings.selector as a hidden form element.
+		$(settings.selector).append("\n"+'<input type="hidden" id="'+settings.autosaveUrlId+'" name="'+settings.autosaveUrlId+'" value="'+autosave_url+'" />'+"\n");
 		
 		
 		
@@ -66,20 +61,17 @@
 		 */
 		function incPg()
 		{
-		
 			for(i=0;i<settings.pages.length;i++)
 			{
 
-				if(autosave_uri.match(settings.pages[i]))
+				if(autosave_url.match(settings.pages[i]))
 				{
 					return true;
-
-				}	else {
-
-					return false;
-				}		
+				}	
 
 			}
+			
+			return false;
 		
 		} 
 		
@@ -132,8 +124,7 @@
 		  */
 		 function createAutoSave()
 		 {
-		 
-			 $.ajax({
+		 	$.ajax({
 			 			type: "POST",
 			 			url: settings.createUrl,
 			 			data: $(settings.selector).serialize(),
@@ -148,28 +139,35 @@
 
 		 //////////////////////////////////////////////////////////////////////////////
 
-		
-		
 		$(settings.selector).each(function(){
 
-			if( true === incPg() )
+
+
+			if( incPg() == true )
 			{
 
 				props.formData = formData(this);
 				
 				createAutoSave();
-			}
+				
+			} 			
+			
 
 		});
 		
 		
-		$(settings.selector).children().each(function(){
-			
+		$(settings.selector).find("input,textarea").each(function(){
+		
 			$(this).focus(function(){
-				
+
+				// On keyup, check for the autosave cookie.
+
 				$(this).keyup(function(){
 
 				current = getCookie(settings.cookieName);
+				
+				
+				// If the autosave cookie has expired, create a new autosave row.
 				
 				if( current == "")
 				{
@@ -187,14 +185,12 @@
 
 		});
 		
-		
-		
-		//####
-		$(settings.listingContainer).html(props.listingHtml);
-		
-		
+
 		
 	} // End $.fn.gdautosave
+	
+	
+	
 	
 	
 })(jQuery);
