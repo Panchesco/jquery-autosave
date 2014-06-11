@@ -5,14 +5,13 @@
 		var settings = $.extend({
 				selector: "form",
 				listingContainer: "#autosave-list",
-				listingsMax: 12,
 				pages: [],
-				cookieName: 'pnchc_tsv',
+				cookieName: 'pnchc_atsv',
 				cookiePath: '/',
 				interval: 5,
 				createUrl: '/admin/autosave/create/',
 				listUrl: '/admin/autosave/rows/12',
-				keyUpSelector: 'input',
+				keyUpSelector: "input,textarea",
 				autosaveUrlId: 'autosave_url',
 				restoreSelector: '.autosave-restore',
 		}, options );
@@ -229,7 +228,7 @@
 		});
 		
 		
-		$(settings.selector).find("input,textarea").each(function(){
+		$(settings.selector).find(settings.keyUpSelector).each(function(){
 		
 			$(this).focus(function(){
 
