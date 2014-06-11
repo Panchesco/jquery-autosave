@@ -14,7 +14,8 @@
 				retrieveUrl: '',
 				listUrl: '/admin/autosave/rows/12',
 				keyUpSelector: 'input',
-				autosaveUrlId: 'autosave_url'
+				autosaveUrlId: 'autosave_url',
+				restoreSelector: '.autosave-restore',
 		}, options );
 		
 		// Object to hold some properties.
@@ -102,6 +103,8 @@
 			
 				props.listingHtml = data;
 				$(settings.listingContainer).html(props.listingHtml);
+				restore(settings.restoreSelector);
+				
 			});
 
 		  }
@@ -134,6 +137,79 @@
 			  
 		 };
 		 
+		 
+		 /**
+		  * Restore form data from autosave data row.
+		  */
+		function restore(selector)
+		{
+			$(selector).on("click",function()
+			{
+
+				var success = function(data){
+				
+				// Loop through values in return JSON object and set values to current form.
+				$.map(data,function(v,k){
+				
+					//$("input[name="+k+"],textarea[name="+k+"]").val(v);
+					
+					var target	= $("input[name="+k+"],textarea[name="+k+"]");
+					var type 	= ( target.attr("type") ) ? target.attr("type") : '';
+					
+					
+					
+					switch(type)
+					{
+					
+						case 'radio':
+							
+							var radio = $("input[name="+k+"]");
+							
+							radio.each(function(){
+								
+								if($(this).val()==v)
+								{
+									$(this).prop("checked",true);
+								} else {
+									$(this).prop("checked",false);
+								}
+								
+							});
+						
+						break;
+					
+						default:
+							target.val(v);
+						break;
+						
+					}
+					
+
+				})
+
+				
+			}
+			
+			
+			$.ajax({
+				type: "GET",
+				url: $(this).attr("href"),
+				dataType: "json",
+				}
+			).done(function(data){
+			
+				restr = success(data);
+
+			}).error(function(){
+			
+				alert('Error restoring autosave from JSON object');
+				
+				});		
+			
+			return false;          
+			
+			});
+		}
 
 		 //////////////////////////////////////////////////////////////////////////////
 
@@ -175,14 +251,13 @@
 				}
 				
 				listAutoSaves();
-				
+
 				});
 				
 			});
 
 		});
 		
-
 		
 	} // End $.fn.gdautosave
 	
