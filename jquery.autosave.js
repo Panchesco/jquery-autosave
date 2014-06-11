@@ -11,7 +11,6 @@
 				cookiePath: '/',
 				interval: 5,
 				createUrl: '/admin/autosave/create/',
-				retrieveUrl: '',
 				listUrl: '/admin/autosave/rows/12',
 				keyUpSelector: 'input',
 				autosaveUrlId: 'autosave_url',
