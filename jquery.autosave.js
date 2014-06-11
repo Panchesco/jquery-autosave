@@ -259,7 +259,7 @@
 		});
 		
 		
-	} // End $.fn.gdautosave
+	} // End $.fn.autosave
 	
 
 	
