@@ -102,7 +102,6 @@
 				props.listingHtml = data;
 				$(settings.listingContainer).html(props.listingHtml);
 				restore(settings.restoreSelector);
-				
 			});
 
 		  }
@@ -143,7 +142,7 @@
 		{
 			$(selector).on("click",function()
 			{
-
+			
 				var success = function(data){
 				
 				// Loop through values in return JSON object and set values to current form.
@@ -182,10 +181,8 @@
 						
 					}
 					
-
 				})
 
-				
 			}
 			
 			
@@ -208,12 +205,11 @@
 			
 			});
 		}
+		
 
 		 //////////////////////////////////////////////////////////////////////////////
 
 		$(settings.selector).each(function(){
-
-
 
 			if( incPg() == true )
 			{
@@ -223,7 +219,6 @@
 				createAutoSave();
 				
 			} 			
-			
 
 		});
 		
